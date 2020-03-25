@@ -1,0 +1,94 @@
+import timeit
+
+timedcode = """
+
+option = "3"
+
+books = []
+dates = []
+
+
+def selectionsort(books):
+    n = len(books)
+    for i in range(n):
+        lowest = i
+        for j in range(i+1, n):
+            highest = j
+            if books[lowest] > books[highest]:
+                lowest = highest
+        books[i], books[lowest] = books[lowest], books[i]
+
+
+def selectionsort2(dates):
+    n = len(dates)
+    for i in range(n):
+        lowest = i
+        for j in range(i+1, n):
+            highest = j
+            if dates[lowest] > dates[highest]:
+                lowest = highest
+        dates[i], dates[lowest] = dates[lowest], dates[i]
+
+
+with open("bookstorage.txt", "r") as f:
+        bookfile = f.read().split(", ")
+        for line in bookfile:
+            books.append(line)
+        print(books)
+with open("datestorage.txt", "r") as f:
+    datefile = f.read().split(", ")
+    for line in datefile:
+        dates.append(line)
+    print(dates)
+
+
+def choice():
+    if option == "1" or option == "3":
+        booksort()
+    elif option == "2":
+        datesort()
+    else:
+        print("No sorting option has been picked")
+
+
+def booksort():
+    bookposition = 0
+    dateposition = 0
+    selectionsort(books)
+    for x in books:
+        while x != bookfile[bookposition]:
+            bookposition += 1
+            dateposition += 1
+        else:
+            print(x,": ", datefile[dateposition])
+            bookposition = 0
+            dateposition = 0
+    if option == "3":
+        datesort()
+    else:
+        print("Books have been sorted in alphabetical order")
+        
+
+def datesort():
+    bookposition = 0
+    dateposition = 0
+    selectionsort2(dates)
+    for x in dates:
+        while x != datefile[dateposition]:
+            bookposition += 1
+            dateposition += 1
+        else:
+            print(x, ": ", bookfile[bookposition])
+            bookposition = 0
+            dateposition = 0
+    if option == "3":
+        print("Books have been sorted by both alphabetical order and date")
+    else:
+        print("Books have been sorted by date published")
+
+choice()
+
+"""
+
+averagetime = timeit.timeit(timedcode, number = 100)/100
+print(averagetime, "Seconds")
